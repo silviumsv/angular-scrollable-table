@@ -81,9 +81,23 @@
           }
 
           function scrollToRow(row) {
-            var offset = $element.find(".headerSpacer").height();
-            var currentScrollTop = $element.find(".scrollArea").scrollTop();
-            $element.find(".scrollArea").scrollTop(currentScrollTop + row.position().top - offset);
+            //var offset = $element.find(".headerSpacer").height();
+            //var currentScrollTop = $element.find(".scrollArea").scrollTop();
+            //$element.find(".scrollArea").scrollTop(currentScrollTop + row.position().top - offset);
+            
+            var element = $(row);
+            var container = $element.find(".scrollArea");
+
+            var containerTop = $(container).scrollTop();
+            var containerBottom = containerTop + $(container).height();
+            var elemTop = $(element).get(0).offsetTop;
+            var elemBottom = elemTop + $(element).height();
+
+            if (elemTop < containerTop) {
+                $(container).scrollTop(elemTop);
+            } else if (elemBottom > containerBottom) {
+                $(container).scrollTop(elemBottom - $(container).height());
+            }
           }
 
           $scope.$on('rowSelected', function (event, rowId) {
